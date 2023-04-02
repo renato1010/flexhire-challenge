@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { createClient } from "@urql/core";
 import { ProfileNavBar } from "./profile-navbar";
 import type { Query } from "../../gql/graphql";
-import { answersPropsSchema, leftSidePropsSchema, navBarPropsSchema, skillsPropsSchema } from "../utils";
+import { answersPropsSchema, leftSidePropsSchema, navBarPropsSchema, skillsPropsSchema } from "../../utils";
 import { ProfileLeftSide } from "./profile-left-side";
 import { ProfileSkills } from "./profile-skills";
 import { ProfileAnswers } from "./profile-answers";
@@ -50,30 +49,25 @@ export default async function Profile() {
   `;
 
   const response = await client.query<ProfileData, {}>(query, {}).toPromise();
-  const data = response.data;
-  if (!data) {
+  const pageData = response.data;
+  if (!pageData?.currentUser) {
     throw new Error("Error fetching profile data");
   }
-  const currentUser = data["currentUser"];
-  if (!currentUser) {
-    throw new Error("Error fetching profile data");
-  }
+  const currentUser = pageData.currentUser;
 
   const { avatarUrl, name, profile, userSkills, answers } = currentUser;
   const { textIntroduction, createdAt } = profile!;
-  // validate NavBar props: if avatarUrl or name are not string throws
+  // validate all props that will be passed to children components
+  //TODO: create a error.tsx to handle any possible error thrown by schema validation
   const navBarPropsOk = navBarPropsSchema.parse({ avatarUrl, name });
-  // validate LeftSide props
   const { textIntroduction: introduction, createdAt: memberSince } = leftSidePropsSchema.parse({
     textIntroduction,
     createdAt,
   });
-  // validate user skills
   const userSkillsParsed = skillsPropsSchema.parse(userSkills);
-  // validate answers
   const answersParsed = answersPropsSchema.parse(answers);
+  // serialize props that will be passed to "client" clild component
   const navBarSerializedProps = JSON.stringify(navBarPropsOk);
-  console.log({ answersParsed });
   return (
     <div className="bg-gray-100">
       <div className="w-full text-white bg-main-color">

@@ -1,3 +1,5 @@
+import { Maybe } from "@/gql/graphql";
+
 type ProfileSkillsProps = {
   skills: {
     experience: number;
@@ -31,14 +33,24 @@ export const ProfileSkills = ({ skills }: ProfileSkillsProps) => {
       <div className="text-gray-700">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 lg:gap-x-4 place-items-center text-sm">
           {skills.map(({ experience, skill: { name } }) => (
-            <div key={name} className="w-full bg-gray-200 my-2 py-1 px-4 rounded-full  border border-slate-200">
-              <p className="text-sm text-green-800">
-                {name} {experience} yrs
-              </p>
-            </div>
+            <SkillPill key={name} name={name} experience={experience} />
           ))}
         </div>
       </div>
+    </div>
+  );
+};
+
+type SkillPillProps = {
+  experience: number;
+  name: string;
+};
+export const SkillPill = ({ experience, name }: SkillPillProps) => {
+  return (
+    <div className="w-max bg-gray-200 my-1 mr-2 py-1 px-4 rounded-full border border-slate-200">
+      <p className="text-sm text-green-800">
+        {name} {experience} yrs
+      </p>
     </div>
   );
 };
