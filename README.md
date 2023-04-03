@@ -36,3 +36,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# Flexhire Challenge
+
+Credits:
+
+- Profile page Tailwind design based on: [Profile Page](https://tailwindcomponents.com/component/profile-page)  
+  author: [jamesbhatta](https://github.com/jamesbhatta)
+- Set Key page Tailwind design based on: [Tailwind CSS Password and confirm validation](https://tailwindcomponents.com/component/password-and-confirm-validation)  
+  author: [Sisableng](https://github.com/Sisableng)

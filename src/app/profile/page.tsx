@@ -1,4 +1,6 @@
 import { createClient } from "@urql/core";
+import { cookies } from "next/headers";
+import { flexhireBaseUrl, flexhireApiKey } from "@/utils";
 import { ProfileNavBar } from "./profile-navbar";
 import type { Query } from "../../gql/graphql";
 import { answersPropsSchema, leftSidePropsSchema, navBarPropsSchema, skillsPropsSchema } from "../../utils";
@@ -7,9 +9,8 @@ import { ProfileSkills } from "./profile-skills";
 import { ProfileAnswers } from "./profile-answers";
 
 export default async function Profile() {
-  const flexhireBaseUrl = process.env.FLEXHIRE_API_BASE_URL;
-  const flexhireApiKey = process.env.FLEXHIRE_API_KEY;
-
+  const cookieStore = cookies();
+  const apiKey = cookieStore.get("flexhireKey");
   const client = createClient({
     url: flexhireBaseUrl!,
     fetchOptions: {
@@ -73,9 +74,8 @@ export default async function Profile() {
       <div className="w-full text-white bg-main-color">
         <ProfileNavBar serializedData={navBarSerializedProps} />
       </div>
-      {/* End of Navbar  */}
-
       <div className="container mx-auto my-5 p-5">
+        <p>apiKey: {apiKey?.value}</p>
         <div className="md:flex no-wrap md:-mx-2">
           {/* Left Side  */}
           <ProfileLeftSide

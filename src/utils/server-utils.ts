@@ -1,4 +1,3 @@
-import "server-only";
 import { number, string, z } from "zod";
 
 export const navBarPropsSchema = z.object({ avatarUrl: z.string(), name: z.string() });
@@ -13,3 +12,4 @@ export const answersPropsSchema = z
     question: z.object({ title: string() }),
   })
   .array();
+

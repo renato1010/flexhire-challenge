@@ -1,5 +1,3 @@
-import { Maybe } from "@/gql/graphql";
-
 type ProfileSkillsProps = {
   skills: {
     experience: number;

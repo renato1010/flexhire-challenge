@@ -1,5 +1,5 @@
 import { createClient } from "@urql/core";
-import type { Job, JobSkill, Maybe, Query } from "../../gql/graphql";
+import type { Job, Maybe, Query } from "../../gql/graphql";
 import { compensationFormat, positionTypesFormat } from "@/utils";
 import { SkillPill } from "../profile/profile-skills";
 
