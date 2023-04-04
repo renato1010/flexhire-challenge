@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSaveApiKey } from "@/api-layer";
 
 export default function SetKey() {
