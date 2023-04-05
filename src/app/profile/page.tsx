@@ -7,10 +7,11 @@ import { answersPropsSchema, leftSidePropsSchema, navBarPropsSchema, skillsProps
 import { ProfileLeftSide } from "./profile-left-side";
 import { ProfileSkills } from "./profile-skills";
 import { ProfileAnswers } from "./profile-answers";
+import datastore from "@/db/datastore";
+import { Keys } from "@/db/types";
 
 export default async function Profile() {
-  const cookieStore = cookies();
-  const apiKey = cookieStore.get("flexhireKey");
+  const keyRow = await datastore<Keys>("keys").first("value");
   const client = createClient({
     url: flexhireBaseUrl!,
     fetchOptions: {
@@ -75,7 +76,7 @@ export default async function Profile() {
         <ProfileNavBar serializedData={navBarSerializedProps} />
       </div>
       <div className="container mx-auto my-5 p-5">
-        <p>apiKey: {apiKey?.value}</p>
+        <p>apiKey: {keyRow?.value}</p>
         <div className="md:flex no-wrap md:-mx-2">
           {/* Left Side  */}
           <ProfileLeftSide

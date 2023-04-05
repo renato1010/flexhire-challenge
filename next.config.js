@@ -19,6 +19,18 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  webpack: (config) => {
+    config.externals = config.externals.concat([
+      "tedious",
+      "mysql",
+      "mysql2",
+      "better-sqlite3",
+      "oracledb",
+      "pg",
+      "pg-query-stream",
+    ]);
+    return config;
+  },
 };
 
 module.exports = nextConfig;
