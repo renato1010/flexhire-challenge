@@ -1,6 +1,5 @@
 import { createClient } from "@urql/core";
-import { cookies } from "next/headers";
-import { flexhireBaseUrl, flexhireApiKey } from "@/utils";
+import { flexhireBaseUrl, flexhireApiKey, isOneHourFresh } from "@/utils";
 import { ProfileNavBar } from "./profile-navbar";
 import type { Query } from "../../gql/graphql";
 import { answersPropsSchema, leftSidePropsSchema, navBarPropsSchema, skillsPropsSchema } from "../../utils";
@@ -11,11 +10,16 @@ import datastore from "@/db/datastore";
 import { Keys } from "@/db/types";
 
 export default async function Profile() {
-  const keyRow = await datastore<Keys>("keys").first("value");
+  const keyRow = await datastore<Keys>("keys").first("value", "createdAt");
+  const currentApiKey = keyRow?.value;
+  const savedAt = keyRow?.createdAt;
+  // security measure; only the keys stored less than one hour ago are used
+  const isFresh = isOneHourFresh(savedAt);
+  console.log({ savedAt, isFresh, currentApiKey });
   const client = createClient({
     url: flexhireBaseUrl!,
     fetchOptions: {
-      headers: { "FLEXHIRE-API-KEY": flexhireApiKey! },
+      headers: { "FLEXHIRE-API-KEY": isFresh && currentApiKey ? currentApiKey : flexhireApiKey! },
     },
   });
 
@@ -76,7 +80,8 @@ export default async function Profile() {
         <ProfileNavBar serializedData={navBarSerializedProps} />
       </div>
       <div className="container mx-auto my-5 p-5">
-        <p>apiKey: {keyRow?.value}</p>
+        <p>apiKey: {currentApiKey} </p>
+        <p>is one hour fresh: {isFresh.toString()} </p>
         <div className="md:flex no-wrap md:-mx-2">
           {/* Left Side  */}
           <ProfileLeftSide

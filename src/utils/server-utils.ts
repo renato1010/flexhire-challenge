@@ -13,3 +13,14 @@ export const answersPropsSchema = z
   })
   .array();
 
+export const flexhireWebHookBodySchema = z.object({
+  event_name: z.string(),
+  timestamp: z.number(),
+  records: string().array(),
+});
+
+export const isOneHourFresh = (createdAt: Date | undefined): boolean => {
+  if (!createdAt) return false;
+  const savedAt = new Date(createdAt);
+  return Date.now() - savedAt.getTime() <= 3600;
+};
