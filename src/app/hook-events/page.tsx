@@ -20,12 +20,9 @@ export default async function HookEvents() {
       cache: "reload",
     });
     const messages = (await response.json()) as Message[];
-    console.log({ messages });
     if (messages?.length) {
       messages.forEach((m) => {
-        console.log(`Message: ${m.value}, Offset: ${m.offset}`);
         const data = JSON.parse(m.value) as WebhookEventData;
-        console.log({ data });
         eventList = [...eventList, data];
       });
     }

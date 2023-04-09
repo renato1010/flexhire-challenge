@@ -4,7 +4,6 @@ import datastore from "@/db/datastore";
 import { v4 as uuidv4 } from "uuid";
 import { Keys } from "@/db/types";
 
-
 export async function POST(request: NextRequest) {
   try {
     const body: { key: string } = await request.json();
@@ -17,7 +16,9 @@ export async function POST(request: NextRequest) {
     if (keyId == undefined) {
       insert = await datastore<Keys>("keys").insert({ value: key, id: uuidv4() });
     } else {
-      update = await datastore<Keys>("keys").where("id", "=", keyId.id).update({ value: key });
+      update = await datastore<Keys>("keys")
+        .where("id", "=", keyId.id)
+        .update({ value: key, updatedAt: new Date() });
     }
     return new NextResponse(JSON.stringify({ data: { updatedId: update, insertedId: insert } }), {
       status: 200,

@@ -10,12 +10,11 @@ import datastore from "@/db/datastore";
 import { Keys } from "@/db/types";
 
 export default async function Profile() {
-  const keyRow = await datastore<Keys>("keys").first("value", "createdAt");
+  const keyRow = await datastore<Keys>("keys").first("value", "updatedAt");
   const currentApiKey = keyRow?.value;
-  const savedAt = keyRow?.createdAt;
+  const updatedAt = keyRow?.updatedAt;
   // security measure; only the keys stored less than one hour ago are used
-  const isFresh = isOneHourFresh(savedAt);
-  console.log({ savedAt, isFresh, currentApiKey });
+  const isFresh = isOneHourFresh(updatedAt);
   const client = createClient({
     url: flexhireBaseUrl!,
     fetchOptions: {
