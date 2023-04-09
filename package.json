@@ -11,9 +11,11 @@
     "knex": "./node_modules/.bin/knex --knexfile src/db/knexfile.ts"
   },
   "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
+    "@upstash/kafka": "^1.3.3",
     "@urql/core": "^3.2.2",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",

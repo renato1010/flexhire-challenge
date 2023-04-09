@@ -8,7 +8,7 @@ async function request<TResponse>(
   let response: Response | undefined = undefined;
   try {
     response = await fetch(url, config);
-    return await response.json();
+    return await response.json() as TResponse;
   } catch (error) {
     const message = getErrorMessage(error);
     const status: number = response?.status ?? 400;

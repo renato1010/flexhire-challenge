@@ -1,14 +1,10 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { flexhireWebHookBodySchema } from "@/utils";
+import { WebhookEventData, kafkaProducer, kafkaTopic } from "@/kafka";
 
-type WebhookSuccessData = {
-  event_name: string;
-  timestamp: number;
-  records: string[];
-};
 export async function POST(request: NextRequest) {
-  let data: WebhookSuccessData;
-  const body: { key: string } = await request.json();
+  let data: WebhookEventData;
+  const body: WebhookEventData = await request.json();
   // validate req body based on info from graphql schema
   // .safeParse do not throw, instead return detailed info about validation problem
   const parsedBody = flexhireWebHookBodySchema.safeParse(body);
@@ -18,6 +14,17 @@ export async function POST(request: NextRequest) {
     console.log({ errors: parsedBody.error });
   } else {
     data = parsedBody.data;
-    console.log({ data: parsedBody.data });
+    const flexhireWebHookMessage = data;
+    try {
+      const response = await kafkaProducer.produce(
+        kafkaTopic,
+        { ...flexhireWebHookMessage },
+        { key: "hookEvents" }
+      );
+      console.log({ kafkaProducerResponse: response });
+      return NextResponse.json({ ok: true, status: 200 });
+    } catch (error) {
+      return NextResponse.json({ ok: false, status: 500 });
+    }
   }
 }
