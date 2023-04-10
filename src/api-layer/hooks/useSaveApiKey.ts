@@ -9,7 +9,6 @@ const useSaveApiKey = (key: string) => {
   const [status, setStatus] = useState<ApiStatus>("IDLE");
   const [data, setData] = useState<SetKeyBody | undefined>(undefined);
 
-  console.log({ baseUrl });
   const saveApiKey = async () => {
     setStatus("PENDING");
     try {

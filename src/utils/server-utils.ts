@@ -23,12 +23,12 @@ const toTimeStamp = (strDate: string) => {
   const dt = new Date(strDate).getTime();
   return dt / 1000;
 };
-export const isOneHourFresh = (updatedAt: number | Date | string | undefined): boolean => {
+export const isOneHourFresh = (updatedAt: number | Date | string | undefined | null): boolean => {
   if (!updatedAt) return false;
   if (typeof updatedAt === "number") {
     const updated = updatedAt;
     const now = Date.now();
-    return ((now - updated)) <= 3600_000;
+    return now - updated <= 3600_000;
   } else if (typeof updatedAt === "string") {
     return Date.now() - new Date(updatedAt).getTime() <= 3600_000;
   } else {
