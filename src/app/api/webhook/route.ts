@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
   // log validation results
   if (!parsedBody.success) {
     // handle errors
-    console.log({ errors: parsedBody.error });
   } else {
     data = parsedBody.data;
     const flexhireWebHookMessage = data;
@@ -21,7 +20,6 @@ export async function POST(request: NextRequest) {
         { ...flexhireWebHookMessage },
         { key: "hookEvents" }
       );
-      console.log({ kafkaProducerResponse: response });
       return NextResponse.json({ ok: true, status: 200 });
     } catch (error) {
       return NextResponse.json({ ok: false, status: 500 });

@@ -32,7 +32,6 @@ export default function SetKey() {
       saveApiKey();
     }
   };
-  console.log({ data, status, error });
   return (
     <section className="grid h-screen place-content-center bg-gray-100">
       <div className="mb-10 text-center text-blue-500">
