@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
   // log validation results
   if (!parsedBody.success) {
     // handle errors
+    console.error(parsedBody.error);
   } else {
     data = parsedBody.data;
     const flexhireWebHookMessage = data;
